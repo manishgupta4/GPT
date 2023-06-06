@@ -5,7 +5,7 @@ function App() {
   const [message,setmessage]=useState(null)
   const [val,setvalue]=useState();
   const [token,settoken]=useState();
-  const [cost,setcost]=useState(0);
+  const [cost,setcost]=useState();
   const[time,settime]=useState();
   const getMessages = async ()=>{
     const options={
@@ -27,6 +27,7 @@ function App() {
         settime(end-start);
         settoken(data.usage.total_tokens);
         setcost((0.2*token));
+        console.log(cost);
      }
      catch(error){
          console.log(error)
