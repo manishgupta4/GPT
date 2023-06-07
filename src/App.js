@@ -1,12 +1,15 @@
 import './App.css';
-import { useState } from 'react';
+import { useState,useEffect} from 'react';
 import background from'./background.jpg';
 function App() {
   const [message,setmessage]=useState(null)
   const [val,setvalue]=useState();
-  const [token,settoken]=useState();
-  const [cost,setcost]=useState();
-  const[time,settime]=useState();
+  const [token,settoken]=useState(0);
+  const [cost,setcost]=useState('');
+  const[time,settime]=useState(0);
+  const setToken=(token)=>{
+      settoken(token)
+  }
   const getMessages = async ()=>{
     const options={
       method:"POST",
@@ -26,14 +29,18 @@ function App() {
         const end=Date.now();
         settime(end-start);
         settoken(data.usage.total_tokens);
-        setcost((0.2*token));
-        console.log(cost);
+        console.log(token);
+        // setcost((0.2*token));
+        // console.log(cost);
      }
      catch(error){
          console.log(error)
      }
 
   }
+  useEffect(()=>{
+    setcost((0.2*token).toFixed(2));
+  },[token])
   return (
     <div className="App">
       <div className="container">
@@ -58,16 +65,16 @@ function App() {
             <div className="col-sm-4 analysis">
               <h1>Analysis</h1>
               <div className="w-100 row my-3 d-flex justify-content-center">
-                <div className='temp h-33 my-1 mx-2'>
-                  <h4>Cost(in $*10^-5)</h4>   
-                  <h1 className="hdg">{cost}</h1>
+              <div className='temp h-33 my-1 mx-2'>
+                  <h6>Cost(in $*10^-5)</h6>   
+                 <h1 className="hdg">{cost}</h1>
                 </div>
-                <div className='temp h-33 my-1 mx-2'>
-                  <h4>No. of Tokens</h4>
+              <div className='temp h-33 my-1 mx-2'>
+                  <h6>No. of Tokens</h6>
                   <h1 className="hdg">{token}</h1>
                 </div>
                 <div className='temp h-33 my-1 mx-2'>
-                   <h4>Time(in ms) </h4>
+                   <h6>Time(in ms) </h6>
                   <h1 className="hdg">{time}</h1>
                 </div>
               </div>
